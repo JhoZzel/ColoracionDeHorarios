@@ -34,14 +34,11 @@ int matriz[100][100];
 //================ FUNCIONES ================ 
 void anadirCursos(string nuevoCurso);
 void asignarVertices(VerticeDelLineal v[], int tam);
-void inicializarMatriz(int n);
-void llenarMatriz(int n, VerticeDelLineal v[]);
 void inicializarHorario();
 int obtenerPosicionCurso(string str);
 int obtenerPosicionProfe(string str);
 void imprimirMatrizAdyacenciaDelLinealTXT(int n);
 void imprimirResultados();
-
 
 int main() {
     // A PARTIR DEL ARCHIVO .TXT, GUARDARAMOS LOS NOMBRES DE LOS PROFES CON SUS RESPECTIVOS CURSOS Y PERIODOS
@@ -75,23 +72,29 @@ int main() {
         nVertices += profesor[i].cursos[j].periodos;
         i++;
     }   nProfes=i;
-
+    
     fin.close();
 
     // HALLANDO LOS VERTICES DEL GRAFO LINEAL DE G
     asignarVertices(vertices, nVertices);
 
-    // MATRIZ DE ADYACENCIA DE L(G
-    fout.open("matrizAdy_GrafoLineal.txt");
-    inicializarMatriz(nVertices);
-    llenarMatriz(nVertices, vertices);
-    imprimirMatrizAdyacenciaDelLinealTXT(nVertices);
-    fout.close();
+    // CREAMOS EL HORARIO 
+        inicializarHorario(); 
+        fin.open("coloring.txt");
+        while (!fin.eof()){
+            getline(fin,str);
+            int pos = str.find(' ');
 
-    cout<<"Archivo \"matrizAdy_GrafoLineal.txt\" creado exitosamente";
+            int i_vert = stoi(str.substr(0,pos+1)) - 1;
+            int j = stoi(str.substr(pos+1,1)) - 1;
+            if (j>nCromatico) nCromatico = j+1;
+            int i = obtenerPosicionProfe(vertices[i_vert].x);
+            horario[i][j] = vertices[i_vert].y;
+        }
+
+    imprimirResultados(); 
     return 0;    
 }
-
 
 void anadirCursos(string nuevoCurso){
     bool flag=true;
@@ -118,29 +121,6 @@ void asignarVertices(VerticeDelLineal v[], int tam) {
                 l++;
                 nPeriodos--;
             }
-        }
-    }
-}
-
-void inicializarMatriz(int n){
-    for (int i = 0; i < n ; ++i) {
-        for (int j = 0; j < n; ++j) {
-            matriz[i][j]=0;
-        }
-    }
-}
-
-void llenarMatriz(int n, VerticeDelLineal v[]){
-    for (int i = 0; i < n; i++){
-        string str1_1 = v[i].x;
-        string str1_2= v[i].y;
-        for (int j = 0; j < n; j++){
-            string str2_1 = v[j].x;
-            string str2_2= v[j].y;
-            if(str1_1.compare(str2_1)==0 && i!=j)
-                matriz[i][j]= 1;
-            else if(str1_2.compare(str2_2)==0 && i!=j)
-                matriz[i][j]=1;
         }
     }
 }
@@ -201,14 +181,14 @@ void imprimirResultados(){
         cout<<"\t"<<i+1<<".  "<<vertices[i].x<<setw(25)<<vertices[i].y<<" - "<<vertices[i].p<<endl;
     }
 
-    cout<<"\n\n\n  HORARIO \n";
+    cout<<"\n\n HORARIO \n\t\t\t";
     for (int i=1; i<= nCromatico; i++ ){
-        cout<<setw(36)<<i;
+        printf("%*d",25,i);
     }   cout<<endl;
     for (int i=0; i<nProfes; i++){
-        cout<<profesor[i].nombre<<setw(30);
-        for (int j=0; j<4; j++){
-            cout<<setw(20)<<horario[i][j];
+        printf("%*s",30,profesor[i].nombre.c_str());
+        for (int j=0; j<nCromatico; j++){
+            printf("%*s",25,horario[i][j].c_str());
         }   cout<<endl;
     }
 }

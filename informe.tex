@@ -1,0 +1,381 @@
+\documentclass[letterpaper,12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{authblk}
+\usepackage{amsfonts}
+\usepackage[version=3]{mhchem}
+\usepackage{textgreek}
+\usepackage{pdflscape} % landscape pages
+\usepackage{lmodern} % Previene advertencias sobre fuentes no disponibles
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{algorithm}
+\usepackage{hyperref}
+\usepackage{algpseudocode}
+\usepackage{algpseudocode}
+\usepackage{adjustbox}
+\usepackage{float}
+\usepackage{color}
+\usepackage{soul}
+\usepackage{wrapfig}
+\usepackage[left=3cm,right=2cm,top=2cm,bottom=3cm]{geometry} % Configura los margenes de página
+%\usepackage{lineno} %Numeros en las lineas
+%\linenumbers
+%Paquete para incluir hipervínculos
+\usepackage[colorlinks=true, linkcolor = black,urlcolor  = blue,citecolor = black,anchorcolor = blue]{hyperref}
+\usepackage{endnotes}
+\usepackage{caption} %Permite escribir en negrita los titulos de las figuras y las tablas.
+\usepackage[labelfont=bf]{caption} %Configura los titulos de las figuras y las tablas en negrita
+\usepackage{siunitx}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{xcolor}
+
+
+
+\newtheorem{definicion}{Definici\'on}[section]
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\linespread{1.4} \sloppy
+\begin{document}
+	
+	\begin{titlepage}
+		
+		\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} 
+		
+		\center 
+		
+		\textsc{“Año del Fortalecimiento de la Soberanía Nacional ”}
+		
+		\vspace{4 mm}
+		
+		\textsc{\LARGE Universidad Nacional de Ingeniería}\\[0.4 cm] 
+		
+		\includegraphics[width = 5 cm]{logo uni.png}\\[0.006cm]
+		
+		\textsc{\Large Trabajo de investigación}\\[0.5cm] 
+		\textsc{\large Facultad de Ciencias}\\[0.3cm]
+		\HRule \\[0.3cm]
+		{ \huge \bfseries El problema del horario }\\[0.2cm] 
+		\HRule \\[0.05cm]
+		
+		\begin{flushleft} 
+			\emph{Integrantes:}\\
+			\vspace{3.0 mm}
+			\textbf{
+                \large{*  Irán Patrick Adrian Chavez Macedo, 20210079G         }}\\        
+			\vspace{3.0 mm}
+			\textbf{
+                \large{* Sergio Diego Huanca Figueroa, 20202172A }}\\
+			\vspace{3.0 mm}
+			\textbf{
+                \large{* Franklin Espinoza Pari 20210135D}}\\
+			\vspace{3.0 mm}
+			\textbf{
+			    \large{* Joel Jhotan Chavez Chico 20210058J}}\\
+			\vspace{3.0 mm}
+			\textbf{
+                \large{* José Carlos Maldonado Jesusi 20210016E}}\\
+			\vspace{3.0 mm}
+                
+			\vspace{1 mm}
+			
+		\end{flushleft}
+        \begin{center}
+            \emph{Profesor:} \\[0.005 cm]
+		        \vspace{1 mm} 
+		      RONALD MAS HUAMAN \\
+                    \vspace{1 cm}
+                  Julio 2022
+        \end{center}
+        
+	\end{titlepage}
+    \tableofcontents
+    \newpage
+    
+    \section{Resumen}
+    Nuestro proyecto busca mostrar una solución ante el gran problema que supone la generación de horarios, para ello nos basamos en la gran teoria de grafos especialmente en la coloración, además cabe precisar que nuestro algoritmo siempre buscara la minima cantidad de periodos en un horario que genere asi cabe precisar de que los horarios que se generan no son unicos.
+    \subsection{Introducción}
+    El problema de encontrar un horario con ciertas condiciones impuestas primero por uno, siempre ha sido un problema, en este proyecto buscamos mostrar una solución con ciertas restricciones y con la ayuda de la teoría de grafos.
+    \subsection{Objetivos}
+    \begin{enumerate}
+     \item Lograr la contrucción de un horario.
+     \item Determinar un algoritmo que nos permita colorear grafos con su número cromatico
+     \item Mostrar una aplicación la coloración de grafos
+    \end{enumerate}
+    \section{Fundamento Teórico}
+    \subsection{Conceptos Previos}
+    Para resolver este problema, es necesario explicar unas cosas primero:
+    \subsubsection{Grafo:}
+     Un grafo es un conjunto de elementos llamados vértices unidos por curvas o líneas llamadas aristas que permiten representar relaciones binarias entre elementos de un conjunto. 
+    \begin{figure} [h]
+         \centering
+         \includegraphics{grafo.JPG}
+         \caption{Ejemplo de un grafo con 6 vértices y 7 aristas}
+         \label{fig:grafo}
+    \end{figure}
+    \begin{itemize}
+        \item Grafo no dirigido \\
+         Es un tipo de grafo en el cual las aristas representan relaciones simétricas y no tienen un sentido definido, a diferencia del grafo dirigido, en el cual las aristas tienen un sentido y por tanto no son necesariamente simétricas, consideraremos este grafo por el momento.
+    \end{itemize}
+    \subsubsection{Grafo bipartito} 
+     Un grafo bipartito es un grafo cuyos vértices se pueden separar en dos conjuntos disjuntos, de manera que las aristas no pueden relacionar vértices de un mismo conjunto. 
+    \begin{figure} [h]
+        \centering
+        \includegraphics{grafo bipartito.JPG}
+        \caption{Ejemplo de grafo bipartito}
+        \label{Ejemplo de grafo bipartito}
+    \end{figure} 
+    \subsubsection{Coloración de vértices}
+    La coloración de grafos es una asignación de etiquetas llamadas colores a elementos del grafo. De manera simple, una coloración de los vértices de un grafo tal que ningún vértice adyacente comparta el mismo color es llamado: “vértice coloración”. 
+    \begin{figure} [h]
+        \centering
+        \includegraphics{coloracion de vertices.JPG}
+        \label{fig:my_label}
+    \end{figure}
+    \subsubsection{Grafo lineal}
+    El grafo lineal $L(G)$ de un grafo no dirigido G es un grafo que representa las adyacencias entre las aristas de G. O sea, cumple estas dos condiciones:
+    \begin{itemize}
+        \item [a)] Cada vértice de $L(G)$ representa una arista de $G$.
+        \item[b)] Dos vértices de $L(G)$ son adyacentes si y solo si sus aristas correspondientes comparten un punto en común (es decir, son adyacentes) en $G$.
+
+    \end{itemize}
+    
+    \begin{figure} [H]
+        \centering
+            \subfloat[Grafo G]{
+                \label{Grafo G}
+                \includegraphics[scale=0.9]{Grafo G.JPG}}
+            \subfloat[Vértices en $L(G)$]{
+                \label{Vertices en l(g)}
+                \includegraphics[scale=0.9]{Vertices en L(G).JPG}}
+        \label{fig:my_label}
+    \end{figure}
+    \begin{figure} [H]
+        \centering
+            \subfloat[Aristas añadidas en $L(G)$]{
+                \label{aristas añadidos}
+                \includegraphics[scale=0.9]{aristas añadidos.JPG}}
+            \subfloat[ El grafo lineal $L(G)$]{
+                \label{grafo lineal}
+                \includegraphics[scale=0.9]{el grafo lineal.JPG}}
+        \label{fig:my_label}
+    \end{figure}
+    \subsubsection{Algoritmo de coloración de vértices }
+    Dado como entrada un grafo simple G con n vértices, busque una m-coloración adecuada de los vértices de G. Sea $\left \{ u_{1}, u_{2}, \cdots, u_{n} \right \}$ denote los vértices de G y sea $\left \{ {v_{1}, v_{2}, \cdots v_{m}} \right \}$ denotan los vértices de $K_{m}$. Generamos conjuntos independientes máximos en el producto cartesiano $G \times K_{m}$. En cada etapa, si el conjunto independiente obtenido tiene un tamaño de al menos $n$, pase a la parte III. 
+    \begin{itemize}
+        \item \textbf{Parte I} \\ 
+        Para $ i = 1, 2, ..., n$ y $ j = 1, 2, ..., m$ a su vez inicialice el conjunto independiente $S_{i,j}=\left \{ (u_{i},v_{j}) \right \}$. \\
+        Realice el procedimiento 3.1 en $S_{i,j}$
+        Para $ r = 1, 2, ..., n$ , realice el procedimiento 3.2 repetido r veces. \\
+        El resultado es un conjunto independiente máximo $S_{i,j}$
+        \item \textbf{Parte 2} \\
+         Para cada par de conjuntos independientes máximos $S_{i,j}$, $S_{k,l}$ encontrados en la Parte I \\
+        Inicialice el conjunto independiente $S_{i,j,k,l}=S_{i,j}\cap S_{k,l}$ \\
+        Realice el procedimiento 3.1 en $S_{i,j,k,l}$ \\
+        Para $r = 1, 2, ..., n$, realice el procedimiento 3.2 repetido $r$ veces. \\
+        El resultado es un conjunto independiente máximo $S_{i,j,k,l}$
+        \item \textbf{Parte III} \\
+        Si se ha encontrado un conjunto independiente S de tamaño $n$ en cualquier etapa de la parte I o la parte II, genere S como una coloración $m$ adecuada de los vértices de G de acuerdo con el lema cartesiano. De lo contrario, informe que el algoritmo no pudo encontrar ninguna m-coloración adecuada de los vértices de G.
+    \end{itemize}
+    \subsubsection{Algoritmo hallar el grafo lineal}
+    Primero etiquetamos los vértices del grafo que tengamos, construiremos el grafo lineal de la siguiente forma
+    \begin{itemize}
+        \item [1.] Cada arista del grafo inicial será un vértice para su grafo lineal. 
+        \item[2.] Si las aristas en G compartían un vértice en común entonces en el grafo lineal dichos vértices serán adyacentes.
+    \end{itemize}
+	Notemos el grafo línea es el grafo de intersección de las aristas de G, nosotros en particular nos interesara hallar la matriz de adyacencia por ello de la misma definición construiremos la matriz de adyacencia, una vez etiquetados si las aristas tenían un vértice en común en el grafo G entonces en el grafo lineal $L(G)$ estarán relacionados por ello tendrán un 1 sino un 0, además notemos que el grafo lineal no es multígrafo por ello el nombre de este.
+	\section{Planteamiento del problema}
+	\subsection{Explicacion del problema}
+	En un colegio hay $m$ profesores $x_{1}, x_{2}, ..., x_{m}$ y $n$ asignaturas $y_{1}, y_{2}, ..., y_{n}$ para impartir. Dado que el profesor $x_{i}$ debe (y puede) enseñar la materia $y_{j}$ durante $p_{ij}$ períodos ($p=[p_{ij}]$ se denomina matriz de requisitos de enseñanza), la administración de la universidad desea hacer un horario utilizando el mínimo número posible de periodos.
+    \subsection{Solución teórica}
+    Esto se conoce como el problema del horario y se puede resolver utilizando la siguiente estrategia. Construya un multígrafo bipartito G con vértices $x_{1}, x_{2}, ..., x_{m}$, $y_{1}, y_{2}, ..., y_{n}$ tal que los vértices $x_{i}$ e $y_{j}$ estén conectados por aristas $p_{ij}$. \\
+    \begin{figure} [h]
+        \centering
+        \includegraphics{multigrafo.JPG}
+        \label{fig:my_label}
+    \end{figure}
+    \newpage
+    Consideremos lo siguiente:
+    \begin{itemize}
+        \item [-] En cualquier período cada profesor puede enseñar como máximo una materia.
+        \item[-] Cada materia puede ser impartida por un profesor como máximo.
+    \end{itemize}
+    Consideremos, primero, un solo período. El horario de este único período corresponde a una coincidencia en el gráfico y, por el contrario, cada coincidencia corresponde a una posible asignación de profesores a las materias impartidas durante este período. \\
+    Así, la solución al problema del horario consiste en dividir las aristas de G en el mínimo número de coincidencias. \\
+    De manera equivalente, debemos colorear correctamente los bordes de G con el mínimo número de colores. \\
+    Nosotros mostraremos otra forma de resolver el problema utilizando el algoritmo de coloración de vértices. Recuerde que el grafo lineal $L(G)$ de G tiene como vértices las aristas de G y dos vértices en $L(G)$ están conectados por una arista si y sólo si las aristas correspondientes en G tienen un vértice en común. \\
+    El grafo lineal $L(G)$ es un grafo simple y una coloración de vértice adecuada de $L(G)$ produce una coloración de borde adecuada de G utilizando el mismo número de colores. Por lo tanto, para resolver el problema de los horarios, basta con encontrar una coloración de vértice mínima adecuada de $L(G)$ usando el algoritmo de coloración de vértices. Demostramos la solución con un pequeño ejemplo.
+    
+    \subsection{Aplicación}
+    Realizamos la aplicación a un grafo simple primero:
+    \begin{itemize}
+        \item [-]Sean 5 profesores y 6 asignaturas, podemos definir la siguiente matriz de requisitos de enseñanzas:
+        \begin{center}
+        \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        P & y_{1} & y_{2} & y_{3} & y_{4} & y_{5} & y_{6} \\
+        \hline
+        x_{1} & 1 & 1 & 0 & 0 & 0 & 0 \\
+        \hline
+        x_{2} & 0 & 0 & 0 & 1 & 1 & 1 \\
+        \hline 
+        x_{3} & 0 & 1 & 0 & 1 & 0 & 0 \\
+        \hline 
+        x_{4} & 1 & 1 & 1 & 0 & 0 & 1 \\
+        \hline
+        x_{5} & 0 & 1 & 0 & 0 & 0 & 0 \\
+        \hline     
+        \end{tabular}
+        \end{center}
+        Tomemos: \\
+        $y_{1}$: Calculo Diferencial \\
+        $y_{2}$: Calculo Integral \\
+        $y_{3}$: Calculo Avanzado \\
+        $y_{4}$: Matemática Discreta \\
+        $y_{5}$: Estructuras Algebraicas \\
+        $y_{6}$: lógica y teoría de Conjuntos \\
+        $x_{1}$: Mas Huamán Ronald Jesús \\
+        $x_{2}$: Zamudio Peves José Fernando \\
+        $x_{3}$: Acuña Ortega Richard Flavio \\
+        $x_{4}$: Metzger Alvan Roger Javier \\
+        $x_{5}$: Jorge Joel Sulca Chipana 
+        
+        \item[-]Representemos el grafo bipartito de la siguiente forma notemos que en este caso no será multígrafo además del 1 al 6 seran los cursos y del 7 al 11 seran los profesores
+        \begin{figure} [h]
+            \centering
+            \includegraphics{1 graph.JPG}
+            \label{fig:my_label}
+        \end{figure}
+        \item[-] Calculemos su grafo lineal con el algoritmo para calcular el grafo lineal.
+        \item[-] Asignando etiquetas a las aristas \\
+        \begin{figure} [h]
+            \centering
+            \includegraphics[scale=0.8]{2 graph.JPG}
+            \label{fig:my_label}
+        \end{figure}
+        \item[-] El grafo lineal será: \\
+        \begin{figure} [h]
+            \centering
+            \includegraphics[scale=0.9]{3 graph.JPG}
+            \label{fig:my_label}
+        \end{figure}
+        \item[-] Y su matriz de adyacencia será:
+        \begin{center}
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+         & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\
+        \hline
+        1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
+        \hline
+        2 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
+        \hline 
+        3 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+        \hline 
+        4 & 0 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+        \hline
+        5 & 0 & 0 & 1 & 1 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 0 \\
+        \hline
+        6 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+        \hline
+        7 & 0 & 0 & 1 & 1 & 1 & 0 & 0 & 1 & 1 & 1 & 0 & 0 \\
+        \hline
+        8 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 1 & 1 & 0 & 0 \\
+        \hline
+        9 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 1 & 0 & 0 \\
+        \hline
+        10 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 0 & 1 & 0 \\
+        \hline
+        11 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 1 \\
+        \hline
+        12 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
+        \hline
+        \end{tabular}
+        \end{center}
+        \item[-] Usando el algoritmo de coloración obtenemos que \\
+        Vértices coloreados (12): (1,1) (2,2) (3,1) (4,2) (5,3) (6,1) (7,4) (8,2) (9,1) (10,3) (11,1) (12,3) \\
+        y entonces el grafo coloreado sera \\
+        \newpage
+        \begin{figure} [h]
+            \centering
+            \includegraphics[scale=0.9]{grafocoloreado.png}
+            \label{fig:my_label}
+        \end{figure}
+        \item[-] Por ultimo el horario buscado sera
+        \begin{center}
+        \begin{tabular}{|c|c|c|c|c|}
+        \hline
+         & 1 & 2 & 3 & 4 \\
+        \hline
+        x_{1} & y_{1} & x_{2} & & \\
+        \hline
+        x_{2} & y_{5} & y_{6} & y_{4} & \\
+        \hline 
+        x_{3} & y_{4} & & y_{2} & \\
+        \hline 
+        x_{4} & y_{6} & y_{3} & y_{1} & y_{2} \\
+        \hline
+        x_{5} & y_{2} & & & \\
+        \hline
+        \end{tabular}
+        \end{center}
+        es decir
+        \begin{center}
+        \begin{tabular}{|c|c|c|c|c|}
+        \hline
+         & 1 & 2 & 3 & 4 \\
+        \hline
+        Mas Huamán Ronald & C.Diferencial &  C. Integral & & \\
+        \hline
+        Zamudio Peves José  & Estructuras Algebraicas & Lógica &  Discreta & \\
+        \hline 
+        Acuña Ortega Richard  & Discreta & & C. Integral & \\
+        \hline 
+        Metzger Alvan Roger  & Lógica & C. Avanzado & C.Diferencial & C. Integral\\
+        \hline
+        Jorge Joel Sulca & C. Integral & & & \\
+        \hline
+        \end{tabular}
+        \end{center}
+    \end{itemize}
+    \newpage
+    \subsection{Implementación}
+    Se logro implementar los algoritmos para la generación de horarios en el lenguaje de C++ se puede descargar el codigo realizado en el siguiente enlace: \url{https://github.com/JoelCH04/ColoracionDeHorarios.git}
+    \section{Conclusiones}
+    \begin{itemize}
+    \item Se logró la construcción de un horario con las condiciones expuestas ademas de implmentarlo en un lenguaje de programación
+    \item Se explicó un algoritmo que nos permitió colorear un grafo con su numero cromático ademas de hallar este último
+    \end{itemize}
+    
+    \section{Bibliografía}
+    \begin{itemize}
+        \item Dharwadker, Ashay; Pirzada, Shariefuddin. Applications of Graph Theory \url{https://www.dharwadker.org/pirzada/applications/}
+        \item Dharwadker, Ashay. The Vertex Coloring Algorithm \url{https://www.dharwadker.org/vertex_coloring/}
+    \end{itemize}
+
+
+\end{document}

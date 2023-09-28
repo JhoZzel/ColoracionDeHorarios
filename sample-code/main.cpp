@@ -36,11 +36,7 @@ void anadirCursos(string nuevoCurso);
 void asignarVertices(VerticeDelLineal v[], int tam);
 void inicializarMatriz(int n);
 void llenarMatriz(int n, VerticeDelLineal v[]);
-void inicializarHorario();
-int obtenerPosicionCurso(string str);
-int obtenerPosicionProfe(string str);
 void imprimirMatrizAdyacenciaDelLinealTXT(int n);
-void imprimirResultados();
 
 
 int main() {
@@ -75,27 +71,20 @@ int main() {
         nVertices += profesor[i].cursos[j].periodos;
         i++;
     }   nProfes=i;
-    
+
     fin.close();
 
     // HALLANDO LOS VERTICES DEL GRAFO LINEAL DE G
     asignarVertices(vertices, nVertices);
 
-    // CREAMOS EL HORARIO 
-    inicializarHorario(); 
-    fin.open("coloring.txt");
-    while (!fin.eof()){
-        getline(fin,str);
-        int pos = str.find(' ');
+    // MATRIZ DE ADYACENCIA DE L(G
+    fout.open("matrizAdy_GrafoLineal.txt");
+    inicializarMatriz(nVertices);
+    llenarMatriz(nVertices, vertices);
+    imprimirMatrizAdyacenciaDelLinealTXT(nVertices);
+    fout.close();
 
-        int i_vert = stoi(str.substr(0,pos+1)) - 1;
-        int j = stoi(str.substr(pos+1,1)) - 1;
-        if (j>nCromatico) nCromatico = j+1;
-        int i = obtenerPosicionProfe(vertices[i_vert].x);
-        horario[i][j] = vertices[i_vert].y;
-    }
-
-    imprimirResultados(); 
+    cout<<"Archivo \"matrizAdy_GrafoLineal.txt\" creado exitosamente";
     return 0;    
 }
 
@@ -152,36 +141,6 @@ void llenarMatriz(int n, VerticeDelLineal v[]){
     }
 }
 
-void inicializarHorario(){
-    for (int i=0; i<nCursos; i++){
-        for (int j=0; j<20; j++){
-            horario[i][j]="---";
-        }
-    }
-}
-
-int obtenerPosicionCurso(string str){
-    int r;
-    for (int i=0; i<nCursos; i++){
-        if (cursos[i].compare(str)){
-            r = i;
-            break;
-        } 
-    }   
-    return r;
-}
-
-int obtenerPosicionProfe(string str){
-    int r;
-    for (int i=0; i<nProfes; i++){
-        if (profesor[i].nombre.compare(str) == 0){
-            r=i;
-            break;
-        }
-    }
-    return r;
-}
-
 void imprimirMatrizAdyacenciaDelLinealTXT(int n){
   fout << n << endl;
   for(int i=0;i<n;i++){
@@ -190,32 +149,4 @@ void imprimirMatrizAdyacenciaDelLinealTXT(int n){
     }
     fout <<'\n';
   }
-}
-
-void imprimirResultados(){
-    cout<<"Profesores: \n";
-    for (int i=0; i<nProfes; i++){
-        cout<<"\t"<<profesor[i].nombre<<endl;
-    }   cout<<endl;
-
-    cout<<"Cursos: \n";
-    for (int i=0; i<nCursos; i++){
-        cout<<"\t"<<cursos[i]<<endl;
-    }   cout<<endl;
-
-    cout<<"Vertices del Lineal: \n";
-    for (int i=0; i<nVertices; i++){
-        cout<<"\t"<<i+1<<".  "<<vertices[i].x<<setw(25)<<vertices[i].y<<" - "<<vertices[i].p<<endl;
-    }
-
-    cout<<"\n\n HORARIO \n\t\t\t";
-    for (int i=1; i<= nCromatico; i++ ){
-        printf("%*d",25,i);
-    }   cout<<endl;
-    for (int i=0; i<nProfes; i++){
-        printf("%*s",30,profesor[i].nombre.c_str());
-        for (int j=0; j<nCromatico; j++){
-            printf("%*s",25,horario[i][j].c_str());
-        }   cout<<endl;
-    }
 }

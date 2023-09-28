@@ -11,12 +11,12 @@ int cover_size(vector<int> cover);
 vector<int> procedure_1(vector<vector<int> > neighbors, vector<int> cover);
 vector<int> procedure_2(vector<vector<int> > neighbors, vector<int> cover, int k);
 
-ifstream infile ("matrizAdy_GrafoLineal.txt.txt");
+ifstream infile ("matrizAdy_GrafoLineal.txt");
 ofstream outfile ("coloring.txt");
 
 int main(){
 //Read Graph
-  cout<<"Vertex Coloring Algorithm."<<endl;
+  cout<<"Algoritmo de Coloracion de Vertices"<<endl;
   int C, N, n, i, j, k, K, p, q, r, s, min, edge, counter=0;
   infile>>N;
   vector< vector<int> > Graph;
@@ -29,8 +29,8 @@ int main(){
     Graph.push_back(row);
   }
 //COLORING to INDEPENDENT SET conversion
-  cout<<"Graph has N = "<<N<<" vertices."<<endl;
-  cout<<"Find a vertex coloring using at most C colors. Enter C = "; cin>>C;
+  cout<<"El grafo tiene n = "<<N<<" vertices."<<endl;
+  cout<<"Buscar una coloración de vertices usando a lo mucho C colores. Ingrese C = "; cin>>C;
 //Complete garph on C verteices
   vector<vector<int>> KC;
   vector<int> row1;
@@ -64,7 +64,7 @@ int main(){
 
 //Find Independent Sets
   bool found=false;
-  cout<<"Finding Vertex Colorings..."<<endl;
+  cout<<"Buscando una coloracion de vertices..."<<endl;
   min=n+1;
   vector<vector<int> > covers;
   vector<int> allcover;
@@ -83,7 +83,7 @@ int main(){
       //for(j=0; j<cover.size(); j++) if(cover[j]==0) outfile<<"("<<j/C+1<<","<<j%C+1<<") ";
       for(j=0; j<cover.size(); j++) if(cover[j]==0) outfile<<j/C+1<<" "<<j%C+1<<endl;
       //outfile<<endl;
-      cout<<"Vertex Coloring Size: "<<n-s<<endl;
+      cout<<"Tamano de la coloración: "<<n-s<<endl;
       covers.push_back(cover);
       found=true;
       break;
@@ -95,7 +95,7 @@ int main(){
     //for(j=0; j<cover.size(); j++) if(cover[j]==0) outfile<<"("<<j/C+1<<","<<j%C+1<<") ";
     for(j=0; j<cover.size(); j++) if(cover[j]==0) outfile<<j/C+1<<" "<<j%C+1<<endl;
     //outfile<<endl;
-    cout<<"Vertex Coloring Size: "<<n-s<<endl;
+    cout<<"Tamano de la coloración: "<<n-s<<endl;
     covers.push_back(cover);
     if(s<=k){ found=true; break; }
   }
@@ -115,7 +115,7 @@ int main(){
         //for(j=0; j<cover.size(); j++) if(cover[j]==0) outfile<<"("<<j/C+1<<","<<j%C+1<<") ";
         for(j=0; j<cover.size(); j++) if(cover[j]==0) outfile<<j/C+1<<" "<<j%C+1<<endl;
         //outfile<<endl;
-        cout<<"Vertex Coloring Size: "<<n-s<<endl;
+        cout<<"Tamano de la coloración: "<<n-s<<endl;
         found=true;
         break;
       }
@@ -126,12 +126,12 @@ int main(){
       //for(j=0; j<cover.size(); j++) if(cover[j]==0) outfile<<"("<<j/C+1<<","<<j%C+1<<") ";
       for(j=0; j<cover.size(); j++) if(cover[j]==0) outfile<<j/C+1<<" "<<j%C+1<<endl;
       //outfile<<endl;
-      cout<<"Vertex Coloring Size: "<<n-s<<endl;
+      cout<<"Tamano de la coloración: "<<n-s<<endl;
       if(s<=k){ found=true; break; }
     } 
   }
   if(found){
-    cout<<"Found  complete Vertex Coloring using at most "<<C<<" colors."<<endl;
+    cout<<"Coloración de Vertices encontrada usando a lo mucho "<<C<<" colores."<<endl;
   }
   else{
     cout<<"Could not find complete Vertex Coloring using at most "<<C<<" colors."<<endl<<"Maximum partial Vertex Coloring found for "<<n-min<<" vertices."<<endl;

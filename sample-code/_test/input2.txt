@@ -1,0 +1,6 @@
+5 6
+Metzger Alvan Roger Javier: Calculo Diferencial, Calculo Integral.
+Mas Huaman Ronald Jesus: Matematica Discreta, Estructuras Algebraicas, Logica y Teoria de Conjuntos
+Zamudio Peves Jose Fernando: Calculo Diferencial, Calculo Integral, Calculo Avanzado, Logica y Teoria de Conjuntos
+Acuña Ortega Richard Flavio: Estructuras Algebraicas, Calculo Integral, Calculo Avanzado
+Mayta Guillermo Jorge Enrique: Matematica Discreta, Estructuras Algebraicas
